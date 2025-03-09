@@ -20,6 +20,8 @@ public class Transaction {
 
     private String title;
     private Long amount;
+    private Integer year;
+    private Integer month;
 
     private Long userId;
 }
