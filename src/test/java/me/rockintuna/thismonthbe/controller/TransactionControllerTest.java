@@ -54,10 +54,28 @@ class TransactionControllerTest {
     }
 
     @Test
-    void addTransaction() throws Exception {
+        void addTransaction() throws Exception {
+            //given
+            int year = 2025;
+            int month = 3;
+            TransactionRequestDto requestDto = new TransactionRequestDto(
+                    "월급", 1000000L, year, month, 1L
+            );
+            String requestBody = objectMapper.writeValueAsString(requestDto);
+
+            //when
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/transactions")
+                            .contentType("application/json")
+                            .content(requestBody))
+                    //then
+                    .andExpect(status().isOk());
+    }
+
+    @Test
+    void addTransactionWithMonthValidError() throws Exception {
         //given
         int year = 2025;
-        int month = 3;
+        int month = 13;
         TransactionRequestDto requestDto = new TransactionRequestDto(
                 "월급", 1000000L, year, month, 1L
         );
@@ -68,7 +86,7 @@ class TransactionControllerTest {
                         .contentType("application/json")
                         .content(requestBody))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isBadRequest());
     }
 
 }
