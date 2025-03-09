@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class TransactionResponseDto {
     private String title;
     private Long amount;
+    private String userName;
 }
