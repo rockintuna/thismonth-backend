@@ -1,5 +1,6 @@
 package me.rockintuna.thismonthbe.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.rockintuna.thismonthbe.dto.TransactionResponseDto;
 import me.rockintuna.thismonthbe.dto.TransactionRequestDto;
@@ -25,10 +26,9 @@ public class TransactionController {
     }
 
     @PostMapping("/transactions")
-    public ResponseEntity<Void> transactions(
-            @RequestBody TransactionRequestDto requestDto
+    public ResponseEntity<TransactionResponseDto> transactions(
+            @RequestBody @Valid TransactionRequestDto requestDto
     ) {
-        transactionService.addTransactions(requestDto);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(transactionService.addTransactions(requestDto));
     }
 }

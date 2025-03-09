@@ -1,12 +1,10 @@
 package me.rockintuna.thismonthbe.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.rockintuna.thismonthbe.dto.TransactionRequestDto;
 
 @Entity
 @Getter
@@ -23,5 +21,17 @@ public class Transaction {
     private Integer year;
     private Integer month;
 
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    public static Transaction create(TransactionRequestDto requestDto, User user) {
+        return new Transaction(
+                null,
+                requestDto.getTitle(),
+                requestDto.getAmount(),
+                requestDto.getYear(),
+                requestDto.getMonth(),
+                user
+        );
+    }
 }
