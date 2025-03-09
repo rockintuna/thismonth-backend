@@ -10,6 +10,7 @@ import me.rockintuna.thismonthbe.dto.TransactionRequestDto;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="tm_tx")
 public class Transaction {
 
     @Id
@@ -18,7 +19,9 @@ public class Transaction {
 
     private String title;
     private Long amount;
+    @Column(name="tx_year")
     private Integer year;
+    @Column(name="tx_month")
     private Integer month;
 
     @ManyToOne(fetch = FetchType.LAZY)
