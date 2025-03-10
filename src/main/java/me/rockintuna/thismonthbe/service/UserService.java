@@ -1,6 +1,8 @@
 package me.rockintuna.thismonthbe.service;
 
 import lombok.RequiredArgsConstructor;
+import me.rockintuna.thismonthbe.domain.User;
+import me.rockintuna.thismonthbe.dto.UserRequestDto;
 import me.rockintuna.thismonthbe.dto.UserResponseDto;
 import me.rockintuna.thismonthbe.repositosy.UserRepository;
 import org.springframework.stereotype.Service;
@@ -22,5 +24,9 @@ public class UserService {
 
     public List<UserResponseDto> getUsers() {
         return userRepository.findAll().stream().map(UserResponseDto::of).collect(Collectors.toList());
+    }
+
+    public Long registerUser(UserRequestDto requestDto) {
+        return userRepository.save(User.create(requestDto)).getId();
     }
 }
