@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     @Query("select t from Transaction t " +
-            "join fetch User u " +
+            "join fetch t.user " +
             "where t.year = :year and t.month = :month")
     List<Transaction> findAllByYearAndMonth(Integer year, Integer month);
 }
