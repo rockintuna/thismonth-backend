@@ -1,6 +1,7 @@
 package me.rockintuna.thismonthbe.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,5 +37,10 @@ public class Transaction {
                 requestDto.getMonth(),
                 user
         );
+    }
+
+    public void update(@Valid TransactionRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.amount = requestDto.getAmount();
     }
 }

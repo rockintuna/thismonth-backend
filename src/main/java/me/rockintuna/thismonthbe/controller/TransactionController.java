@@ -31,4 +31,12 @@ public class TransactionController {
     ) {
         return ResponseEntity.ok(transactionService.addTransactions(requestDto));
     }
+
+    @PatchMapping("/transactions/{transactionId}")
+    public ResponseEntity<TransactionResponseDto> transactions(
+            @PathVariable Long transactionId,
+            @RequestBody @Valid TransactionRequestDto requestDto
+    ) {
+        return ResponseEntity.ok(transactionService.updateTransactions(transactionId, requestDto));
+    }
 }
