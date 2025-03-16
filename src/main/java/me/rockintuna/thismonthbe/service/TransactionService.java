@@ -44,4 +44,13 @@ public class TransactionService {
         transaction.update(requestDto);
         return TransactionResponseDto.of(transaction);
     }
+
+    @Transactional
+    public void deleteTransactions(Long transactionId) {
+        Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(
+                () -> new RuntimeException("Transaction with id " + transactionId + " not found")
+        );
+
+        transactionRepository.delete(transaction);
+    }
 }
