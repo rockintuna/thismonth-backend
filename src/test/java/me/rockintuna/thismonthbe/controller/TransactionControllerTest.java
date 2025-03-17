@@ -35,9 +35,9 @@ class TransactionControllerTest {
         int month = 3;
         String userName = "tester";
         List<TransactionResponseDto> list = new ArrayList<>();
-        list.add(new TransactionResponseDto("월급", 1000000L, userName));
-        list.add(new TransactionResponseDto("교통비", -100000L, userName));
-        list.add(new TransactionResponseDto("용돈", -200000L, userName));
+        list.add(new TransactionResponseDto(1L, "월급", 1000000L, userName));
+        list.add(new TransactionResponseDto(2L, "교통비", -100000L, userName));
+        list.add(new TransactionResponseDto(3L, "용돈", -200000L, userName));
         given(transactionService.getTransactions(year, month)).willReturn(list);
 
         //when
