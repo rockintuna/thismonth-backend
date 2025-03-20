@@ -83,4 +83,27 @@ class TransactionServiceTest {
         assertThat(transactionResponseDto.getTitle()).isEqualTo(transaction.getTitle());
         assertThat(transactionResponseDto.getAmount()).isEqualTo(transaction.getAmount());
     }
+
+    @Test
+    void testUpdateTransaction() {
+        //given
+        int year = 2025;
+        int month = 1;
+
+        User user1 = new User(1L, "tester1");
+
+        TransactionRequestDto requestDto = new TransactionRequestDto(
+                "월급수정", 2000000L, year, month, user1.getId()
+        );
+        Transaction transaction = new Transaction(1L, "월급", 1000000L, year, month, user1);
+
+        when(transactionRepository.findById(1L)).thenReturn(Optional.of(transaction));
+
+        TransactionResponseDto transactionResponseDto = transactionService.updateTransactions(1L, requestDto);
+
+        assertThat(transactionResponseDto).isNotNull();
+        assertThat(transactionResponseDto.getUserName()).isEqualTo(user1.getUsername());
+        assertThat(transactionResponseDto.getTitle()).isEqualTo(requestDto.getTitle());
+        assertThat(transactionResponseDto.getAmount()).isEqualTo(requestDto.getAmount());
+    }
 }
