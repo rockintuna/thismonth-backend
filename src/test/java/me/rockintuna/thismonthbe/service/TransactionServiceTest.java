@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionServiceTest {
@@ -121,5 +121,22 @@ class TransactionServiceTest {
         when(transactionRepository.findById(1L)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> transactionService.updateTransactions(1L, requestDto));
+    }
+
+    @Test
+    void testDeleteTransaction() {
+        //given
+        int year = 2025;
+        int month = 1;
+
+        User user1 = new User(1L, "tester1");
+
+        Transaction transaction = new Transaction(1L, "월급", 1000000L, year, month, user1);
+
+        when(transactionRepository.findById(1L)).thenReturn(Optional.of(transaction));
+
+        transactionService.deleteTransactions(1L);
+
+        verify(transactionRepository, times(1)).delete(any(Transaction.class));
     }
 }
