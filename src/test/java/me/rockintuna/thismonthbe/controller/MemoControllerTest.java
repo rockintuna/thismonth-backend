@@ -1,11 +1,13 @@
 package me.rockintuna.thismonthbe.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.rockintuna.thismonthbe.dto.MemoRequestDto;
 import me.rockintuna.thismonthbe.dto.MemoResponseDto;
 import me.rockintuna.thismonthbe.service.MemoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -14,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -57,5 +60,32 @@ class MemoControllerTest {
                 .andExpect(jsonPath("$[0].year").isNumber())
                 .andExpect(jsonPath("$[0].month").isNumber())
                 .andExpect(jsonPath("$[0].userName").isString());
+    }
+
+    @Test
+    void createMemo() throws Exception {
+        //given
+        int year = 2025;
+        int month = 12;
+        String content = "test";
+
+        MemoRequestDto requestDto = new MemoRequestDto(year, month, content, 1L);
+        String requestBody = objectMapper.writeValueAsString(requestDto);
+
+        MemoResponseDto responseDto =
+                new MemoResponseDto(1L, content, year, month, "정인");
+        given(memoService.createMemo(any(MemoRequestDto.class))).willReturn(responseDto);
+
+        //when
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/memos")
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON))
+
+                //then
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.content").value(responseDto.getContent()))
+                .andExpect(jsonPath("$.year").value(year))
+                .andExpect(jsonPath("$.month").value(month));
     }
 }

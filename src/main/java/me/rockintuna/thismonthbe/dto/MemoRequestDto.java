@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class MemoResponseDto {
-    private Long id;
+public class MemoRequestDto {
+    private Integer year;
+    private Integer month;
     private String content;
-    private int year;
-    private int month;
-    private String userName;
+    private Long userId;
 }
