@@ -21,7 +21,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@WebMvcTest(MemoControllerTest.class)
+@WebMvcTest(MemoController.class)
 class MemoControllerTest {
 
     @Autowired
