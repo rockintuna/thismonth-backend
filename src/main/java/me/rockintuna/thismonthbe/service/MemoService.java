@@ -1,19 +1,33 @@
 package me.rockintuna.thismonthbe.service;
 
+import lombok.RequiredArgsConstructor;
+import me.rockintuna.thismonthbe.domain.Memo;
+import me.rockintuna.thismonthbe.domain.User;
 import me.rockintuna.thismonthbe.dto.MemoRequestDto;
 import me.rockintuna.thismonthbe.dto.MemoResponseDto;
-import org.springframework.http.ResponseEntity;
+import me.rockintuna.thismonthbe.repositosy.MemoRepository;
+import me.rockintuna.thismonthbe.repositosy.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MemoService {
+
+    private final MemoRepository memoRepository;
+    private final UserRepository userRepository;
+
     public List<MemoResponseDto> getMemos(int year, int month) {
-        return null;
+        return memoRepository.findAllByYearAndMonth(year, month)
+                .stream().map(MemoResponseDto::of)
+                .toList();
     }
 
-    public MemoResponseDto createMemo(MemoRequestDto any) {
-        return null;
+    public MemoResponseDto createMemo(MemoRequestDto requestDto) {
+        User user = userRepository.findById(requestDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        return MemoResponseDto.of(memoRepository.save(Memo.create(requestDto, user)));
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.rockintuna.thismonthbe.dto.MemoRequestDto;
 
 @Entity
 @Getter
@@ -25,4 +26,8 @@ public class Memo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    public static Memo create(MemoRequestDto requestDto, User user) {
+        return new Memo(null, requestDto.getContent(), requestDto.getYear(), requestDto.getMonth(), user);
+    }
 }
