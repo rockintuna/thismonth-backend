@@ -30,4 +30,11 @@ public class MemoController {
         URI location = URI.create("/api/memos?year=" + memo.getYear() + "&month=" + memo.getMonth());
         return ResponseEntity.created(location).body(memo);
     }
+
+    @DeleteMapping("/api/memos/{memoId}")
+    public ResponseEntity<Void> deleteMemo(
+            @PathVariable Long memoId) {
+        memoService.deleteMemo(memoId);
+        return ResponseEntity.ok().build();
+    }
 }

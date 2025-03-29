@@ -30,4 +30,8 @@ public class MemoService {
 
         return MemoResponseDto.of(memoRepository.save(Memo.create(requestDto, user)));
     }
+
+    public void deleteMemo(Long memoId) {
+        memoRepository.deleteById(memoId);
+    }
 }
