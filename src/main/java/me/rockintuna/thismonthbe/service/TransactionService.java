@@ -6,6 +6,8 @@ import me.rockintuna.thismonthbe.domain.Transaction;
 import me.rockintuna.thismonthbe.domain.User;
 import me.rockintuna.thismonthbe.dto.TransactionResponseDto;
 import me.rockintuna.thismonthbe.dto.TransactionRequestDto;
+import me.rockintuna.thismonthbe.exceptions.TransactionNotFoundException;
+import me.rockintuna.thismonthbe.exceptions.UserNotFoundException;
 import me.rockintuna.thismonthbe.repositosy.TransactionRepository;
 import me.rockintuna.thismonthbe.repositosy.UserRepository;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class TransactionService {
 
     public TransactionResponseDto addTransactions(TransactionRequestDto requestDto) {
         User user = userRepository.findById(requestDto.getUserId()).orElseThrow(
-                () -> new RuntimeException("User with id " + requestDto.getUserId() + " not found")
+                () -> new UserNotFoundException("User with id " + requestDto.getUserId() + " not found")
         );
 
         return TransactionResponseDto.of(
@@ -38,7 +40,7 @@ public class TransactionService {
     @Transactional
     public TransactionResponseDto updateTransactions(Long transactionId, @Valid TransactionRequestDto requestDto) {
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(
-                () -> new RuntimeException("Transaction with id " + transactionId + " not found")
+                () -> new TransactionNotFoundException("Transaction with id " + transactionId + " not found")
         );
 
         transaction.update(requestDto);
@@ -48,7 +50,7 @@ public class TransactionService {
     @Transactional
     public void deleteTransactions(Long transactionId) {
         Transaction transaction = transactionRepository.findById(transactionId).orElseThrow(
-                () -> new RuntimeException("Transaction with id " + transactionId + " not found")
+                () -> new TransactionNotFoundException("Transaction with id " + transactionId + " not found")
         );
 
         transactionRepository.delete(transaction);
