@@ -5,6 +5,7 @@ import me.rockintuna.thismonthbe.domain.Memo;
 import me.rockintuna.thismonthbe.domain.User;
 import me.rockintuna.thismonthbe.dto.MemoRequestDto;
 import me.rockintuna.thismonthbe.dto.MemoResponseDto;
+import me.rockintuna.thismonthbe.exceptions.UserNotFoundException;
 import me.rockintuna.thismonthbe.repositosy.MemoRepository;
 import me.rockintuna.thismonthbe.repositosy.UserRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class MemoService {
 
     public MemoResponseDto createMemo(MemoRequestDto requestDto) {
         User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         return MemoResponseDto.of(memoRepository.save(Memo.create(requestDto, user)));
     }
